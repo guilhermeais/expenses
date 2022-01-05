@@ -46,9 +46,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _transactions = [
- 
-  ];
+  final List<Transaction> _transactions = [];
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((tr) {
@@ -56,26 +54,45 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  _addTransaction(String title, double value) {
-    final newTrasaction = Transaction(
-        id: Random().nextDouble().toString(),
-        title: title,
-        value: value,
-        date: DateTime.now());
+  _addTransaction(String title, double value, String? id) {
+    if (id!= null && id.isNotEmpty) {
+      final idxEdited = _transactions.indexWhere((element) => element.id == id);
+      if (idxEdited > -1) {
+        setState(() {
+          _transactions[idxEdited].title = title;
+          _transactions[idxEdited].value = value;
+        });
+      }
+    } else {
+      final newTrasaction = Transaction(
+          id: Random().nextDouble().toString(),
+          title: title,
+          value: value,
+          date: DateTime.now());
 
-    setState(() {
-      _transactions.add(newTrasaction);
-    });
+      setState(() {
+        _transactions.add(newTrasaction);
+      });
+    }
+
     Navigator.of(context).pop();
   }
 
-  _openTransactionFormModal(BuildContext context) {
+  _editTransaction(String id, int index, BuildContext context) {
+    final findedTransaction =
+        _transactions.firstWhere((element) => element.id == id);
+    if (findedTransaction.id.isNotEmpty) {
+      _openTransactionFormModal(context, findedTransaction);
+    }
+  }
+
+  _openTransactionFormModal(
+      BuildContext context, Transaction? editingTransaction) {
     showModalBottomSheet(
         context: context,
         builder: (_) {
           return TransactionForm(
-            onSubmit: _addTransaction,
-          );
+              onSubmit: _addTransaction, edit: editingTransaction);
         });
   }
 
@@ -88,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              _openTransactionFormModal(context);
+              _openTransactionFormModal(context, null);
             },
           ),
         ],
@@ -98,14 +115,19 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Chart(recentTransactions: _recentTransactions),
-            TransactionList(transactions: _transactions),
+            TransactionList(
+              transactions: _transactions,
+              onEditTransaction: (String id, int index){
+               // _editTransaction(id, index, context);
+              },
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          _openTransactionFormModal(context);
+          _openTransactionFormModal(context, null);
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
