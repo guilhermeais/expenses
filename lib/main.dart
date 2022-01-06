@@ -18,7 +18,6 @@ class ExpensesApp extends StatelessWidget {
     return MaterialApp(
       home: MyHomePage(),
       theme: ThemeData(
-          // primarySwatch: Colors.purple,
           colorScheme: ColorScheme.fromSwatch(
               primarySwatch: Colors.purple, accentColor: Colors.amber),
           fontFamily: 'Quicksand',
@@ -26,7 +25,8 @@ class ExpensesApp extends StatelessWidget {
               headline6: const TextStyle(
                   fontFamily: 'OpenSans',
                   fontSize: 18,
-                  fontWeight: FontWeight.bold)),
+                  fontWeight: FontWeight.bold),
+              button: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
           appBarTheme: const AppBarTheme(
             titleTextStyle: TextStyle(
               fontFamily: 'OpenSans',
@@ -46,7 +46,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _transactions = [];
+  final List<Transaction> _transactions = [
+    Transaction(
+        id: Random().nextDouble().toString(),
+        title: 'Conta de Luz',
+        value: 125,
+        date: DateTime.now().subtract(Duration(days: 3))),
+    Transaction(
+        id: Random().nextDouble().toString(),
+        title: 'Conta da internert',
+        value: 80,
+        date: DateTime.now().subtract(Duration(days: 2))),
+    Transaction(
+        id: Random().nextDouble().toString(),
+        title: 'Aluguel',
+        value: 125,
+        date: DateTime.now().add(Duration(days: 3))),
+  ];
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((tr) {
@@ -55,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _addTransaction(String title, double value, String? id) {
-    if (id!= null && id.isNotEmpty) {
+    if (id != null && id.isNotEmpty) {
       final idxEdited = _transactions.indexWhere((element) => element.id == id);
       if (idxEdited > -1) {
         setState(() {
@@ -117,8 +133,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Chart(recentTransactions: _recentTransactions),
             TransactionList(
               transactions: _transactions,
-              onEditTransaction: (String id, int index){
-               // _editTransaction(id, index, context);
+              onEditTransaction: (String id, int index) {
+                // _editTransaction(id, index, context);
               },
             ),
           ],
