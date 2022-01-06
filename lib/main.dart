@@ -26,7 +26,8 @@ class ExpensesApp extends StatelessWidget {
                   fontFamily: 'OpenSans',
                   fontSize: 18,
                   fontWeight: FontWeight.bold),
-              button: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+              button:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
           appBarTheme: const AppBarTheme(
             titleTextStyle: TextStyle(
               fontFamily: 'OpenSans',
@@ -46,23 +47,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _transactions = [
-    Transaction(
-        id: Random().nextDouble().toString(),
-        title: 'Conta de Luz',
-        value: 125,
-        date: DateTime.now().subtract(Duration(days: 3))),
-    Transaction(
-        id: Random().nextDouble().toString(),
-        title: 'Conta da internert',
-        value: 80,
-        date: DateTime.now().subtract(Duration(days: 2))),
-    Transaction(
-        id: Random().nextDouble().toString(),
-        title: 'Aluguel',
-        value: 125,
-        date: DateTime.now().add(Duration(days: 3))),
-  ];
+  final List<Transaction> _transactions = [];
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((tr) {
@@ -70,21 +55,22 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  _addTransaction(String title, double value, String? id) {
-    if (id != null && id.isNotEmpty) {
-      final idxEdited = _transactions.indexWhere((element) => element.id == id);
-      if (idxEdited > -1) {
-        setState(() {
-          _transactions[idxEdited].title = title;
-          _transactions[idxEdited].value = value;
-        });
-      }
-    } else {
+  _addTransaction(String title, double value, DateTime date) {
+    // if (id != null && id.isNotEmpty) {
+    //   final idxEdited = _transactions.indexWhere((element) => element.id == id);
+    //   if (idxEdited > -1) {
+    //     setState(() {
+    //       _transactions[idxEdited].title = title;
+    //       _transactions[idxEdited].value = value;
+    //     });
+    //   }
+    // } else
+    {
       final newTrasaction = Transaction(
           id: Random().nextDouble().toString(),
           title: title,
           value: value,
-          date: DateTime.now());
+          date: date);
 
       setState(() {
         _transactions.add(newTrasaction);
@@ -94,12 +80,18 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.of(context).pop();
   }
 
-  _editTransaction(String id, int index, BuildContext context) {
-    final findedTransaction =
-        _transactions.firstWhere((element) => element.id == id);
-    if (findedTransaction.id.isNotEmpty) {
-      _openTransactionFormModal(context, findedTransaction);
-    }
+  // _editTransaction(String id, int index, BuildContext context) {
+  //   final findedTransaction =
+  //       _transactions.firstWhere((element) => element.id == id);
+  //   if (findedTransaction.id.isNotEmpty) {
+  //     _openTransactionFormModal(context, findedTransaction);
+  //   }
+  // }
+
+  _deleteTransaction(String id) {
+    setState(() {
+      _transactions.removeWhere((tr) => tr.id == id);
+    });
   }
 
   _openTransactionFormModal(
@@ -133,7 +125,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Chart(recentTransactions: _recentTransactions),
             TransactionList(
               transactions: _transactions,
-              onEditTransaction: (String id, int index) {
+              onDelete: _deleteTransaction,
+              onEdit: (String id, int index) {
                 // _editTransaction(id, index, context);
               },
             ),

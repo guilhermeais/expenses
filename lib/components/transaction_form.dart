@@ -1,8 +1,9 @@
 import 'package:expenses/models/transaction.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
-  final Function(String title, double value, String? id) onSubmit;
+  final Function(String title, double value, DateTime date) onSubmit;
   final Transaction? edit;
   TransactionForm({Key? key, required this.onSubmit, this.edit})
       : super(key: key);
@@ -13,7 +14,7 @@ class TransactionForm extends StatefulWidget {
 
 class _TransactionFormState extends State<TransactionForm> {
   final _titleController = TextEditingController();
-
+   DateTime _selectedDate = DateTime.now();
   final _valueController = TextEditingController();
 
   _submitForm() {
@@ -21,7 +22,24 @@ class _TransactionFormState extends State<TransactionForm> {
     final value = double.tryParse(_valueController.text) ?? 0.0;
     if (title.isEmpty) return;
     if (value <= 0) return;
-    widget.onSubmit(title, value, null);
+    if (_selectedDate == null) return;
+
+    widget.onSubmit(title, value, _selectedDate);
+  }
+
+  _showDatePicker() {
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2019),
+            lastDate: DateTime.now())
+        .then((pickedDate) {
+      if (pickedDate != null) {
+        setState(() {
+          _selectedDate = pickedDate;
+        });
+      }
+    });
   }
 
   @override
@@ -53,9 +71,13 @@ class _TransactionFormState extends State<TransactionForm> {
               height: 70,
               child: Row(
                 children: [
-                  Text('Nenhuma data selecionada!'),
+                  Expanded(
+                    child: Text(_selectedDate != null
+                        ? 'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}'
+                        : 'Nenhuma data selecionada!'),
+                  ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: _showDatePicker,
                     child: Text(
                       'Selecionar Data',
                       style: TextStyle(
