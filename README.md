@@ -1,16 +1,17 @@
 # expenses
 
-A new Flutter project.
+ Expenses é uma aplicação android simples feita em Flutter para controlar despesas pessoais.
+ 
+A aplicação consiste em:
+  <ul>
+    <li><h3>Listar transações feitas na semana.</h3> <br> <img width="400px" src="https://user-images.githubusercontent.com/73388069/148432428-6f09eaf2-6eef-4250-a4ff-c3645f64a4aa.png">
 
-## Getting Started
+</li>
+  
+   <li><h3>Cadastrar Transações.</h3> <br> <img width="400px" src="https://user-images.githubusercontent.com/73388069/148432507-bceccc90-f42e-437b-a17e-46102bf42d5e.png">
+</li>
+  </ul>
 
-This project is a starting point for a Flutter application.
+<hr/>
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Por mais que seja uma aplicação bem simples, foi ótimo pra um primeiro contato com a linguagem Dart e o framework Flutter! A aplicação foi feita junto a um <a href="https://www.udemy.com/course/curso-flutter/" >curso de Flutter</a>
