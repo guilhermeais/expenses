@@ -38,6 +38,7 @@ class _TransactionFormState extends State<TransactionForm> {
         setState(() {
           _selectedDate = pickedDate;
         });
+       // _submitForm();
       }
     });
   }
@@ -63,7 +64,7 @@ class _TransactionFormState extends State<TransactionForm> {
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
               onSubmitted: (_) {
-                _submitForm();
+                _showDatePicker();
               },
               decoration: const InputDecoration(labelText: "Valor (R\$)"),
             ),
