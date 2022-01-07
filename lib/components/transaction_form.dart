@@ -14,7 +14,7 @@ class TransactionForm extends StatefulWidget {
 
 class _TransactionFormState extends State<TransactionForm> {
   final _titleController = TextEditingController();
-   DateTime _selectedDate = DateTime.now();
+  DateTime _selectedDate = DateTime.now();
   final _valueController = TextEditingController();
 
   _submitForm() {
@@ -38,69 +38,76 @@ class _TransactionFormState extends State<TransactionForm> {
         setState(() {
           _selectedDate = pickedDate;
         });
-       // _submitForm();
+        // _submitForm();
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            Text(
-              '${false ? 'Editando' : 'Adicionando'} Transação',
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            TextField(
-              decoration: const InputDecoration(labelText: "Título"),
-              controller: _titleController,
-            ),
-            TextField(
-              controller: _valueController,
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
-              onSubmitted: (_) {
-                _showDatePicker();
-              },
-              decoration: const InputDecoration(labelText: "Valor (R\$)"),
-            ),
-            Container(
-              height: 70,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(_selectedDate != null
-                        ? 'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}'
-                        : 'Nenhuma data selecionada!'),
-                  ),
-                  TextButton(
-                    onPressed: _showDatePicker,
-                    child: Text(
-                      'Selecionar Data',
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: 10,
+            right: 10,
+            left: 10,
+            bottom: 10 + MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: Column(
+            children: [
+              Text(
+                '${false ? 'Editando' : 'Adicionando'} Transação',
+                style: Theme.of(context).textTheme.headline6,
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                    onPressed: _submitForm,
-                    child: Text(
-                      '${false ? 'Editar' : 'Adicionar'} Transação',
-                      style: Theme.of(context).textTheme.button,
-                    ))
-              ],
-            )
-          ],
+              TextField(
+                decoration: const InputDecoration(labelText: "Título"),
+                controller: _titleController,
+              ),
+              TextField(
+                controller: _valueController,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                onSubmitted: (_) {
+                  _showDatePicker();
+                },
+                decoration: const InputDecoration(labelText: "Valor (R\$)"),
+              ),
+              Container(
+                height: 70,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(_selectedDate != null
+                          ? 'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}'
+                          : 'Nenhuma data selecionada!'),
+                    ),
+                    TextButton(
+                      onPressed: _showDatePicker,
+                      child: Text(
+                        'Selecionar Data',
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                      onPressed: _submitForm,
+                      child: Text(
+                        '${false ? 'Editar' : 'Adicionar'} Transação',
+                        style: Theme.of(context).textTheme.button,
+                      ))
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
