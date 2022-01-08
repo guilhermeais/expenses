@@ -1,6 +1,8 @@
-import 'package:expenses/components/adaptative_button.dart';
+import 'package:expenses/components/adaptatives/adaptative_button.dart';
+import 'package:expenses/components/adaptatives/adaptative_text_field.dart';
 import 'package:expenses/models/transaction.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
@@ -62,18 +64,19 @@ class _TransactionFormState extends State<TransactionForm> {
                 '${false ? 'Editando' : 'Adicionando'} Transação',
                 style: Theme.of(context).textTheme.headline6,
               ),
-              TextField(
-                decoration: const InputDecoration(labelText: "Título"),
+              AdaptativeTextField(
+                label: "Título",
                 controller: _titleController,
+                onSubmitted: (_) => _submitForm(),
               ),
-              TextField(
+              AdaptativeTextField(
                 controller: _valueController,
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
                 onSubmitted: (_) {
                   _showDatePicker();
                 },
-                decoration: const InputDecoration(labelText: "Valor (R\$)"),
+                label: "Valor (R\$)",
               ),
               Container(
                 height: 70,
