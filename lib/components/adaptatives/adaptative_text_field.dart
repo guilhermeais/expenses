@@ -6,13 +6,13 @@ class AdaptativeTextField extends StatelessWidget {
   final String label;
   final TextEditingController controller;
   TextInputType? keyboardType = TextInputType.text;
-  final void Function(String? value) onSubmitted;
+  final void Function(String? value)? onSubmitted;
 
   AdaptativeTextField(
       {Key? key,
       required this.label,
       required this.controller,
-      required this.onSubmitted,
+       this.onSubmitted,
       this.keyboardType})
       : super(key: key);
 

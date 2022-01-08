@@ -1,4 +1,5 @@
 import 'package:expenses/components/adaptatives/adaptative_button.dart';
+import 'package:expenses/components/adaptatives/adaptative_date_picker.dart';
 import 'package:expenses/components/adaptatives/adaptative_text_field.dart';
 import 'package:expenses/models/transaction.dart';
 import 'package:flutter/material.dart';
@@ -30,20 +31,11 @@ class _TransactionFormState extends State<TransactionForm> {
     widget.onSubmit(title, value, _selectedDate);
   }
 
-  _showDatePicker() {
-    showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2019),
-            lastDate: DateTime.now())
-        .then((pickedDate) {
-      if (pickedDate != null) {
-        setState(() {
-          _selectedDate = pickedDate;
-        });
-        // _submitForm();
-      }
+  _onDateChanged(DateTime date) {
+    setState(() {
+      _selectedDate = date;
     });
+    // _submitForm();
   }
 
   @override
@@ -73,31 +65,12 @@ class _TransactionFormState extends State<TransactionForm> {
                 controller: _valueController,
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
-                onSubmitted: (_) {
-                  _showDatePicker();
-                },
+              
                 label: "Valor (R\$)",
               ),
-              Container(
-                height: 70,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(_selectedDate != null
-                          ? 'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate)}'
-                          : 'Nenhuma data selecionada!'),
-                    ),
-                    TextButton(
-                      onPressed: _showDatePicker,
-                      child: Text(
-                        'Selecionar Data',
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    )
-                  ],
-                ),
+              AdaptativeDatePicker(
+                onDateChanged: _onDateChanged,
+                selectedDate: _selectedDate,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
