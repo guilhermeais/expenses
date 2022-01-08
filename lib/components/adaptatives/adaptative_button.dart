@@ -6,7 +6,7 @@ class AdaptativeButton extends StatelessWidget {
   final String label;
   final Function() onPressed;
 
-  AdaptativeButton({Key? key, required this.label, required this.onPressed})
+  const AdaptativeButton({Key? key, required this.label, required this.onPressed})
       : super(key: key);
 
   @override
@@ -18,7 +18,7 @@ class AdaptativeButton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
           )
         : ElevatedButton(
-            child: Text(label),
+            child:  Text(label),
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(
                   Theme.of(context).colorScheme.primary),
